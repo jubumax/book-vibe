@@ -1,0 +1,49 @@
+import React from 'react';
+import BookCard from '../shared/BookCard';
+import { IBook } from '@/types/books.type';
+
+const getBooks = async () => {
+    const response = await fetch(
+        'http://localhost:3000/booksData.json'
+    );
+    const data = await response.json();
+    return data;
+};
+
+const Books = async () => {
+    const booksData = await getBooks();
+
+    return (
+        <section className="container mx-auto my-[70px] px-4">
+
+            {/* Heading */}
+            <div className="mb-10 text-center">
+                <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-emerald-600">
+                    Our Collection
+                </p>
+
+                <h1 className="text-3xl font-bold text-slate-900 md:text-4xl">
+                    Explore Our Books
+                </h1>
+
+                <p className="mx-auto mt-3 max-w-2xl text-slate-500">
+                    Discover inspiring stories, timeless classics, and
+                    unforgettable books from different genres.
+                </p>
+            </div>
+
+            {/* Books Grid */}
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {booksData.slice(0, 9).map((book: IBook) => (
+                    <BookCard
+                        key={book.bookId}
+                        book={book}
+                    />
+                ))}
+            </div>
+
+        </section>
+    );
+};
+
+export default Books;
